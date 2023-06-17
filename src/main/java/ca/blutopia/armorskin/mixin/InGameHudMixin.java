@@ -1,6 +1,5 @@
 package ca.blutopia.armorskin.mixin;
 
-import net.fabricmc.fabric.mixin.item.ArmorItemMixin;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -83,7 +82,7 @@ public abstract class InGameHudMixin {
         int armor = playerEntity.getArmorValue();
         var armorslots = playerEntity.getArmorSlots();
 
-        Dictionary<ArmorMaterial, Number> defenseDict = new Hashtable<ArmorMaterial, Number>();
+        Dictionary<ArmorMaterial, Number> defenseDict = new Hashtable<>();
 
         for (ItemStack slot :
                 armorslots) {
