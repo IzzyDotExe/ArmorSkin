@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "armorskin",
+  "version": "${version}",
+  "name": "ArmorSkin",
+  "description": "Shows armor types in the armor status bar.",
+  "authors": [
+    "IzzyDotExe"
+  ],
+  "contact": {
+    "website": "https://blutopia.ca",
+    "repo": "https://github.com/IzzydotExe/AppleSkin"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/armorskin/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "ca.blutopia.armorskin.ArmorSkin"
+    ]
+  },
+  "mixins": [
+    "armorskin.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
