@@ -21,7 +21,7 @@ public abstract class InGameHudMixin {
     @Shadow private int displayHealth;
     @Shadow private int screenHeight;
     @Shadow private int screenWidth;
-    private static final ResourceLocation ARMORSKIN_ICONS_LOCATION = new ResourceLocation("armorskin/textures/gui/armorskin.png");
+    private static final ResourceLocation ARMORSKIN_ICONS_LOCATION = new ResourceLocation("armorskin", "textures/gui/armorskin.png");
 
     @Redirect(method = "renderPlayerHealth", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 0))
     private void RedirectHalfArmor(GuiGraphics instance, ResourceLocation resourceLocation, int x, int y, int u, int v, int width, int height) {
