@@ -4,6 +4,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -94,7 +95,7 @@ public abstract class InGameHudMixin {
 
         var playerEntity = getCameraPlayer();
         var armorslots = playerEntity.getArmorSlots();
-
+        defenseDict = new Hashtable<>();
         for (ItemStack slot :
                 armorslots) {
             if (slot.getItem().getClass() != ArmorItem.class && slot.getItem().getClass() != DyeableArmorItem.class)
@@ -111,6 +112,7 @@ public abstract class InGameHudMixin {
         }
 
         current = getHighestNumericValue(defenseDict);
+        //instance.push(s);
 
 
     }
