@@ -3,8 +3,10 @@ Minecraft fabric mod that shows armor types in the armor status bar.
 
 <a href='https://ko-fi.com/Y8Y5BAYRU' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-![Image1](https://i.imgur.com/cDZNmcO.png)
+<img width="1708" height="960" alt="2025-11-04_10 45 49" src="https://github.com/user-attachments/assets/6b0c6940-d2c9-41b2-9072-165d5b73c86f" />
+<img width="1708" height="960" alt="2025-11-04_10 45 33" src="https://github.com/user-attachments/assets/800e0fd4-87b3-4ec5-88d6-1d8328d7d816" />
+<img width="1708" height="960" alt="2025-11-04_10 45 21" src="https://github.com/user-attachments/assets/25242daa-139f-4a84-a078-184189fdd094" />
+<img width="1708" height="960" alt="2025-11-04_10 45 14" src="https://github.com/user-attachments/assets/42fc58c2-8a57-4796-b2a4-fc851ae743b1" />
 
-![Image2](https://i.imgur.com/Fi7bpCK.png)
 
 Need help? or have questions? [Join my discord!](https://discord.gg/cVFc6Mr)
