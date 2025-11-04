@@ -14,7 +14,7 @@
   },
   "license": "All-Rights-Reserved",
   "icon": "assets/armorskin/icon.png",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "client": [
       "ca.blutopia.armorskin.ArmorSkin"
