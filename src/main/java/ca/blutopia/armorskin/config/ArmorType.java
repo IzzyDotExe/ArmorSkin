@@ -9,6 +9,7 @@ public enum ArmorType
   LEATHER_NETHERITE( ArmorConfig.NETHERITE_HALF_U, ArmorConfig.LEATHER_V),
   LEATHER_GOLD( ArmorConfig.GOLD_HALF_U, ArmorConfig.LEATHER_V),
   LEATHER_CHAIN( ArmorConfig.CHAIN_HALF_U, ArmorConfig.LEATHER_V),
+  LEATHER_TURTLE(ArmorConfig.TURTLE_HALF_U, ArmorConfig.LEATHER_V),
 
   CHAIN(ArmorConfig.FULL_U, ArmorConfig.CHAIN_V),
   CHAIN_HALF(ArmorConfig.HALF_U, ArmorConfig.CHAIN_V),
@@ -17,6 +18,7 @@ public enum ArmorType
   CHAIN_NETHERITE( ArmorConfig.NETHERITE_HALF_U, ArmorConfig.CHAIN_V),
   CHAIN_GOLD( ArmorConfig.GOLD_HALF_U, ArmorConfig.CHAIN_V),
   CHAIN_LEATHER( ArmorConfig.CHAIN_HALF_U, ArmorConfig.CHAIN_V),
+  CHAIN_TURTLE(ArmorConfig.TURTLE_HALF_U, ArmorConfig.CHAIN_V),
 
   IRON(ArmorConfig.FULL_U, ArmorConfig.IRON_V),
   IRON_HALF(ArmorConfig.HALF_U, ArmorConfig.IRON_V),
@@ -25,6 +27,7 @@ public enum ArmorType
   IRON_NETHERITE( ArmorConfig.NETHERITE_HALF_U, ArmorConfig.IRON_V),
   IRON_GOLD( ArmorConfig.GOLD_HALF_U, ArmorConfig.IRON_V),
   IRON_LEATHER( ArmorConfig.IRON_HALF_U, ArmorConfig.IRON_V),
+  IRON_TURTLE(ArmorConfig.TURTLE_HALF_U, ArmorConfig.IRON_V),
 
   GOLD(ArmorConfig.FULL_U, ArmorConfig.GOLD_V),
   GOLD_HALF(ArmorConfig.HALF_U, ArmorConfig.GOLD_V),
@@ -33,6 +36,7 @@ public enum ArmorType
   GOLD_NETHERITE( ArmorConfig.NETHERITE_HALF_U, ArmorConfig.GOLD_V),
   GOLD_LEATHER( ArmorConfig.GOLD_HALF_U, ArmorConfig.GOLD_V),
   GOLD_CHAIN( ArmorConfig.CHAIN_HALF_U, ArmorConfig.GOLD_V),
+  GOLD_TURTLE(ArmorConfig.TURTLE_HALF_U, ArmorConfig.GOLD_V),
 
   DIAMOND(ArmorConfig.FULL_U, ArmorConfig.DIAMOND_V),
   DIAMOND_HALF(ArmorConfig.HALF_U, ArmorConfig.DIAMOND_V),
@@ -41,6 +45,7 @@ public enum ArmorType
   DIAMOND_NETHERITE( ArmorConfig.NETHERITE_HALF_U, ArmorConfig.DIAMOND_V),
   DIAMOND_LEATHER( ArmorConfig.DIAMOND_HALF_U, ArmorConfig.DIAMOND_V),
   DIAMOND_GOLD( ArmorConfig.GOLD_HALF_U, ArmorConfig.DIAMOND_V),
+  DIAMOND_TURTLE(ArmorConfig.TURTLE_HALF_U, ArmorConfig.DIAMOND_V),
 
   NETHERITE( ArmorConfig.FULL_U, ArmorConfig.NETHERITE_V ),
   NETHERITE_HALF( ArmorConfig.HALF_U, ArmorConfig.NETHERITE_V ),
@@ -49,6 +54,16 @@ public enum ArmorType
   NETHERITE_CHAIN( ArmorConfig.CHAIN_HALF_U, ArmorConfig.NETHERITE_V ),
   NETHERITE_GOLD( ArmorConfig.GOLD_HALF_U, ArmorConfig.NETHERITE_V ),
   NETHERITE_LEATHER( ArmorConfig.NETHERITE_HALF_U, ArmorConfig.NETHERITE_V ),
+  NETHERITE_TURTLE(ArmorConfig.TURTLE_HALF_U, ArmorConfig.NETHERITE_V),
+
+  TURTLE(ArmorConfig.FULL_U, ArmorConfig.TURTLE_V),
+  TURTLE_HALF(ArmorConfig.HALF_U, ArmorConfig.TURTLE_V),
+  TURTLE_LEATHER(ArmorConfig.TURTLE_HALF_U, ArmorConfig.TURTLE_V),
+  TURTLE_IRON(ArmorConfig.IRON_HALF_U, ArmorConfig.TURTLE_V),
+  TURTLE_DIAMOND(ArmorConfig.DIAMOND_HALF_U, ArmorConfig.TURTLE_V),
+  TURTLE_NETHERITE(ArmorConfig.NETHERITE_HALF_U, ArmorConfig.TURTLE_V),
+  TURTLE_GOLD(ArmorConfig.GOLD_HALF_U, ArmorConfig.TURTLE_V),
+  TURTLE_CHAIN(ArmorConfig.CHAIN_HALF_U, ArmorConfig.TURTLE_V),
 
   ELYTRA(ArmorConfig.EMPTY_U, ArmorConfig.ELYTRA_V),
   EMPTY(ArmorConfig.EMPTY_U, ArmorConfig.LEATHER_V),

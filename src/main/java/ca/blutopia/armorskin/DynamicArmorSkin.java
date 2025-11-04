@@ -1,6 +1,7 @@
 package ca.blutopia.armorskin;
 
 import ca.blutopia.armorskin.config.ArmorType;
+import ca.blutopia.armorskin.config.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -15,6 +16,7 @@ public class DynamicArmorSkin {
   private Map<ArmorMaterial, Integer> armorPoints = new HashMap<ArmorMaterial, Integer>();
   ArmorMaterial current = ArmorMaterial.NONE;
   private Minecraft client;
+  private ModConfig modConfig = ArmorSkin.ConfigInstance;
 
   public DynamicArmorSkin(Minecraft client) {
     this.client = client;
@@ -79,13 +81,22 @@ public class DynamicArmorSkin {
 
   }
 
+  public boolean isElytraEquipped() {
+    if (client.player == null) return false;
+    return client.player.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.ELYTRA;
+  }
+
   public ArmorType getArmorTypeForIcon(int iconIndex) {
 
     // Set the current armor material we're handling
     if ( current == ArmorMaterial.NONE)
       current = getHighestNumericValue(armorPoints);
 
-    if (current == ArmorMaterial.NONE) return ArmorType.EMPTY;
+    if (current == ArmorMaterial.NONE )
+    {
+      return ArmorType.EMPTY;
+    }
+
 
     if (armorPoints.get( current ) >= 2) {
 
@@ -128,6 +139,7 @@ public class DynamicArmorSkin {
         case GOLD -> ArmorType.GOLD;
         case DIAMOND -> ArmorType.DIAMOND;
         case NETHERITE -> ArmorType.NETHERITE;
+        case TURTLE -> ArmorType.TURTLE;
         default -> ArmorType.EMPTY;
       };
     } else {
@@ -138,6 +150,7 @@ public class DynamicArmorSkin {
       if (primary == ArmorMaterial.LEATHER && secondary == ArmorMaterial.DIAMOND) return ArmorType.LEATHER_DIAMOND;
       if (primary == ArmorMaterial.LEATHER && secondary == ArmorMaterial.NETHERITE) return ArmorType.LEATHER_NETHERITE;
       if (primary == ArmorMaterial.LEATHER && secondary == ArmorMaterial.NONE) return ArmorType.LEATHER_HALF;
+      if (primary == ArmorMaterial.LEATHER && secondary == ArmorMaterial.TURTLE) return ArmorType.LEATHER_TURTLE;
 
       if (primary == ArmorMaterial.CHAINMAIL && secondary == ArmorMaterial.LEATHER) return ArmorType.CHAIN_LEATHER;
       if (primary == ArmorMaterial.CHAINMAIL && secondary == ArmorMaterial.IRON) return ArmorType.CHAIN_IRON;
@@ -145,6 +158,7 @@ public class DynamicArmorSkin {
       if (primary == ArmorMaterial.CHAINMAIL && secondary == ArmorMaterial.DIAMOND) return ArmorType.CHAIN_DIAMOND;
       if (primary == ArmorMaterial.CHAINMAIL && secondary == ArmorMaterial.NETHERITE) return ArmorType.CHAIN_NETHERITE;
       if (primary == ArmorMaterial.CHAINMAIL && secondary == ArmorMaterial.NONE) return ArmorType.CHAIN_HALF;
+      if (primary == ArmorMaterial.CHAINMAIL && secondary == ArmorMaterial.TURTLE) return ArmorType.CHAIN_TURTLE;
 
       if (primary == ArmorMaterial.IRON && secondary == ArmorMaterial.LEATHER) return ArmorType.IRON_LEATHER;
       if (primary == ArmorMaterial.IRON && secondary == ArmorMaterial.CHAINMAIL) return ArmorType.IRON_CHAIN;
@@ -152,6 +166,7 @@ public class DynamicArmorSkin {
       if (primary == ArmorMaterial.IRON && secondary == ArmorMaterial.DIAMOND) return ArmorType.IRON_DIAMOND;
       if (primary == ArmorMaterial.IRON && secondary == ArmorMaterial.NETHERITE) return ArmorType.IRON_NETHERITE;
       if (primary == ArmorMaterial.IRON && secondary == ArmorMaterial.NONE) return ArmorType.IRON_HALF;
+      if (primary == ArmorMaterial.IRON && secondary == ArmorMaterial.TURTLE) return ArmorType.IRON_TURTLE;
 
       if (primary == ArmorMaterial.GOLD && secondary == ArmorMaterial.LEATHER) return ArmorType.GOLD_LEATHER;
       if (primary == ArmorMaterial.GOLD && secondary == ArmorMaterial.CHAINMAIL) return ArmorType.GOLD_CHAIN;
@@ -159,6 +174,7 @@ public class DynamicArmorSkin {
       if (primary == ArmorMaterial.GOLD && secondary == ArmorMaterial.DIAMOND) return ArmorType.GOLD_DIAMOND;
       if (primary == ArmorMaterial.GOLD && secondary == ArmorMaterial.NETHERITE) return ArmorType.GOLD_NETHERITE;
       if (primary == ArmorMaterial.GOLD && secondary == ArmorMaterial.NONE) return ArmorType.GOLD_HALF;
+      if (primary == ArmorMaterial.GOLD && secondary == ArmorMaterial.TURTLE) return ArmorType.GOLD_TURTLE;
 
       if (primary == ArmorMaterial.DIAMOND && secondary == ArmorMaterial.LEATHER) return ArmorType.DIAMOND_LEATHER;
       if (primary == ArmorMaterial.DIAMOND && secondary == ArmorMaterial.CHAINMAIL) return ArmorType.DIAMOND_CHAIN;
@@ -166,6 +182,7 @@ public class DynamicArmorSkin {
       if (primary == ArmorMaterial.DIAMOND && secondary == ArmorMaterial.GOLD) return ArmorType.DIAMOND_GOLD;
       if (primary == ArmorMaterial.DIAMOND && secondary == ArmorMaterial.NETHERITE) return ArmorType.DIAMOND_NETHERITE;
       if (primary == ArmorMaterial.DIAMOND && secondary == ArmorMaterial.NONE) return ArmorType.DIAMOND_HALF;
+      if (primary == ArmorMaterial.DIAMOND && secondary == ArmorMaterial.TURTLE) return ArmorType.DIAMOND_TURTLE;
 
       if (primary == ArmorMaterial.NETHERITE && secondary == ArmorMaterial.LEATHER) return ArmorType.NETHERITE_LEATHER;
       if (primary == ArmorMaterial.NETHERITE && secondary == ArmorMaterial.CHAINMAIL) return ArmorType.NETHERITE_CHAIN;
@@ -173,6 +190,15 @@ public class DynamicArmorSkin {
       if (primary == ArmorMaterial.NETHERITE && secondary == ArmorMaterial.GOLD) return ArmorType.NETHERITE_GOLD;
       if (primary == ArmorMaterial.NETHERITE && secondary == ArmorMaterial.DIAMOND) return ArmorType.NETHERITE_DIAMOND;
       if (primary == ArmorMaterial.NETHERITE && secondary == ArmorMaterial.NONE) return ArmorType.NETHERITE_HALF;
+      if (primary == ArmorMaterial.NETHERITE && secondary == ArmorMaterial.TURTLE) return ArmorType.NETHERITE_TURTLE;
+
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.LEATHER) return ArmorType.TURTLE_LEATHER;
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.CHAINMAIL) return ArmorType.TURTLE_CHAIN;
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.IRON) return ArmorType.TURTLE_IRON;
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.GOLD) return ArmorType.TURTLE_GOLD;
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.DIAMOND) return ArmorType.TURTLE_DIAMOND;
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.NETHERITE) return ArmorType.TURTLE_NETHERITE;
+      if (primary == ArmorMaterial.TURTLE && secondary == ArmorMaterial.NONE) return ArmorType.TURTLE_HALF;
 
       return ArmorType.EMPTY;
     }
@@ -228,6 +254,7 @@ public class DynamicArmorSkin {
   }
 
   private ArmorMaterial getArmorMaterial(ItemStack armorPiece) {
+
     if (armorPiece.isEmpty()) {
       return ArmorMaterial.NONE;
     }
@@ -252,12 +279,14 @@ public class DynamicArmorSkin {
     } else if (item == Items.NETHERITE_HELMET || item == Items.NETHERITE_CHESTPLATE ||
       item == Items.NETHERITE_LEGGINGS || item == Items.NETHERITE_BOOTS) {
       return ArmorMaterial.NETHERITE;
+    } else if (item == Items.TURTLE_HELMET) {
+      return ArmorMaterial.TURTLE;
     }
 
     return ArmorMaterial.NONE;
   }
 
   private enum ArmorMaterial {
-    NONE, LEATHER, CHAINMAIL, IRON, GOLD, DIAMOND, NETHERITE
+    NONE, LEATHER, CHAINMAIL, IRON, GOLD, DIAMOND, NETHERITE, TURTLE
   }
 }
