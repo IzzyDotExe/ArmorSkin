@@ -140,6 +140,7 @@ public class DynamicArmorSkin {
         case DIAMOND -> ArmorType.DIAMOND;
         case NETHERITE -> ArmorType.NETHERITE;
         case TURTLE -> ArmorType.TURTLE;
+        case COPPER -> ArmorType.COPPER;
         default -> ArmorType.EMPTY;
       };
     } else {
@@ -247,6 +248,12 @@ public class DynamicArmorSkin {
     if (item == Items.NETHERITE_LEGGINGS) return 6;
     if (item == Items.NETHERITE_BOOTS) return 3;
 
+    // Copper: Helmet=2, Chestplate=4, Leggings=3, Boots=1
+    if (item == Items.COPPER_HELMET) return 2;
+    if (item == Items.COPPER_CHESTPLATE) return 4;
+    if (item == Items.COPPER_LEGGINGS) return 3;
+    if (item == Items.COPPER_BOOTS) return 1;
+
     // Turtle Shell: Helmet=2
     if (item == Items.TURTLE_HELMET) return 2;
 
@@ -281,12 +288,16 @@ public class DynamicArmorSkin {
       return ArmorMaterial.NETHERITE;
     } else if (item == Items.TURTLE_HELMET) {
       return ArmorMaterial.TURTLE;
+    } else if (item == Items.COPPER_HELMET || item == Items.COPPER_CHESTPLATE ||
+      item == Items.COPPER_LEGGINGS || item == Items.COPPER_BOOTS) {
+      return ArmorMaterial.COPPER;
     }
+
 
     return ArmorMaterial.NONE;
   }
 
   private enum ArmorMaterial {
-    NONE, LEATHER, CHAINMAIL, IRON, GOLD, DIAMOND, NETHERITE, TURTLE
+    NONE, LEATHER, CHAINMAIL, IRON, GOLD, DIAMOND, NETHERITE, TURTLE, COPPER
   }
 }

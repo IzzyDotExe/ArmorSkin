@@ -8,8 +8,9 @@ public class ArmorConfig
   public static final int LEATHER_V = 0;
   public static final int IRON_V = 50;
   public static final int CHAIN_V = 40;
-  public static final int ELYTRA_V = 60;
+  public static final int ELYTRA_V = 80;
   public static final int TURTLE_V = 60;
+  public static final int COPPER_V = 70;
 
   public static final int FULL_U = 18;
   public static final int HALF_U = 9;
@@ -21,5 +22,6 @@ public class ArmorConfig
   public static final int GOLD_HALF_U = 54;
   public static final int CHAIN_HALF_U = 63;
   public static final int TURTLE_HALF_U = 72;
+  public static final int COPPER_HALF_U = 81;
 
 }
