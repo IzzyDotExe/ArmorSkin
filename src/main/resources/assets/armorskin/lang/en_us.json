@@ -1,4 +1,9 @@
-{  "key.armorskin.settings": "ArmorSkin Settings",
-"key.category.armorskin": "ArmorSkin"
+{
+
+  "key.armorskin.settings": "ArmorSkin Settings",
+  "key.category.armorskin": "ArmorSkin",
+  "text.autoconfig.armorskin.option.armorSkin": "Armor bar texture",
+  "text.autoconfig.armorskin.option.showElytra": "Show Elytra",
+  "text.autoconfig.armorskin.option.elytraIconPosition": "Elytra icon position"
 
 }
