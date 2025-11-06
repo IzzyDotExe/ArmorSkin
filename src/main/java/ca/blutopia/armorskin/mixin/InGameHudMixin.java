@@ -56,6 +56,27 @@ public abstract class InGameHudMixin {
     }
   }
 
+  @Redirect(method = "renderArmor",
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 2))
+  private static void redirectEmptyArmorIcon(GuiGraphics graphics, RenderPipeline renderPipeline , ResourceLocation resource, int x, int y, int width, int height) {
+
+    if (ModConfig.showElytra && dynamicArmorSkin.isElytraEquipped()) {
+
+      if (currentIconIndex != ModConfig.elytraIconPosition) {
+        graphics.blitSprite( renderPipeline, resource, x, y, width, height );
+        currentIconIndex++;
+        return;
+      }
+
+      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, ArmorType.ELYTRA.u, ArmorType.ELYTRA.v, width, height, 256, 256);
+      currentIconIndex++;
+      return;
+    }
+
+    graphics.blitSprite( renderPipeline, resource, x, y, width, height );
+
+  }
+
   @Inject(method = "renderPlayerHealth",
     at = @At(value = "HEAD"))
   private static void resetIconIndex( GuiGraphics guiGraphics, CallbackInfo ci ) {
