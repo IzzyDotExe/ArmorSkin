@@ -7,8 +7,8 @@ import ca.blutopia.armorskin.config.ModConfig;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class InGameHudMixin {
 
   @Unique
-  private static final ResourceLocation ARMORSKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/armorskin.png");
+  private static final Identifier ARMORSKIN_TEXTURE = Identifier.withDefaultNamespace("textures/gui/armorskin.png");
   @Unique
   private static final ModConfig ModConfig = ArmorSkin.ConfigInstance;
   @Unique
@@ -29,8 +29,8 @@ public abstract class InGameHudMixin {
   private static int currentIconIndex = 0;
 
   @Redirect(method = "renderArmor",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 0))
-  private static void redirectArmorIcon( GuiGraphics graphics, RenderPipeline renderPipeline, ResourceLocation resource, int x, int y, int width, int height) {
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 0))
+  private static void redirectArmorIcon( GuiGraphicsExtractor graphics, RenderPipeline renderPipeline, Identifier resource, int x, int y, int width, int height) {
     ArmorType armorSkin = ModConfig.armorSkin;
 
     if (armorSkin == ArmorType.DYNAMIC) {
@@ -43,8 +43,8 @@ public abstract class InGameHudMixin {
   }
 
   @Redirect(method = "renderArmor",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 1))
-  private static void redirectHalfArmorIcon(GuiGraphics graphics, RenderPipeline renderPipeline , ResourceLocation resource, int x, int y, int width, int height) {
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 1))
+  private static void redirectHalfArmorIcon(GuiGraphicsExtractor graphics, RenderPipeline renderPipeline , Identifier resource, int x, int y, int width, int height) {
     ArmorType armorSkin = ModConfig.armorSkin;
 
     if (armorSkin == ArmorType.DYNAMIC) {
@@ -57,8 +57,8 @@ public abstract class InGameHudMixin {
   }
 
   @Redirect(method = "renderArmor",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 2))
-  private static void redirectEmptyArmorIcon(GuiGraphics graphics, RenderPipeline renderPipeline , ResourceLocation resource, int x, int y, int width, int height) {
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 2))
+  private static void redirectEmptyArmorIcon(GuiGraphicsExtractor graphics, RenderPipeline renderPipeline , Identifier resource, int x, int y, int width, int height) {
 
     if (ModConfig.showElytra && dynamicArmorSkin.isElytraEquipped()) {
 
@@ -79,7 +79,7 @@ public abstract class InGameHudMixin {
 
   @Inject(method = "renderPlayerHealth",
     at = @At(value = "HEAD"))
-  private static void resetIconIndex( GuiGraphics guiGraphics, CallbackInfo ci ) {
+  private static void resetIconIndex( GuiGraphicsExtractor guiGraphics, CallbackInfo ci ) {
     currentIconIndex = 0;
     dynamicArmorSkin.storeArmorValues();
   }

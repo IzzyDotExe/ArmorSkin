@@ -3,7 +3,7 @@ package ca.blutopia.armorskin.gui;
 import ca.blutopia.armorskin.config.ModConfig;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfigClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -12,7 +12,7 @@ public class ModMenuIntegration implements ModMenuApi {
   @Override
   public ConfigScreenFactory<?> getModConfigScreenFactory() {
 
-    return parent -> AutoConfig.getConfigScreen( ModConfig.class, parent).get();
+    return parent -> AutoConfigClient.getConfigScreen( ModConfig.class, parent).get();
 
   }
 }
