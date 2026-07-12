@@ -8,7 +8,9 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Hud;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,11 +24,33 @@ public abstract class InGameHudMixin {
   @Unique
   private static final Identifier ARMORSKIN_TEXTURE = Identifier.withDefaultNamespace("textures/gui/armorskin.png");
   @Unique
+  private static final Identifier GLINT_TEXTURE = Identifier.withDefaultNamespace("textures/misc/enchanted_glint_item.png");
+  @Unique
   private static final ModConfig ModConfig = ArmorSkin.ConfigInstance;
   @Unique
   private static final DynamicArmorSkin dynamicArmorSkin = new DynamicArmorSkin(Minecraft.getInstance());
   @Unique
   private static int currentIconIndex = 0;
+  @Unique
+  private static boolean hasEnchantedArmor = false;
+
+  @Inject(method = "extractArmor", at = @At("HEAD"))
+  private static void capturePlayerForGlint(GuiGraphicsExtractor graphics, Player player, int y, int lines, int emptySlots, int x, CallbackInfo ci) {
+      hasEnchantedArmor = false;
+      for (net.minecraft.world.entity.EquipmentSlot slot : net.minecraft.world.entity.EquipmentSlot.values()) {
+          if (slot.isArmor() && player.getItemBySlot(slot).hasFoil()) {
+              hasEnchantedArmor = true;
+              break;
+          }
+      }
+  }
+
+  @Unique
+  private static void drawGlint(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+      if (hasEnchantedArmor) {
+          graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x, y, 0, 0, width, height, width, height);
+      }
+  }
 
   @Redirect(method = "extractArmor",
     at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 0))
@@ -36,9 +60,11 @@ public abstract class InGameHudMixin {
     if (armorSkin == ArmorType.DYNAMIC) {
       ArmorType armorType = dynamicArmorSkin.getArmorTypeForIcon(currentIconIndex);
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u, armorType.v, width, height, 256, 256);
+      drawGlint(graphics, x, y, width, height);
       currentIconIndex++;
     } else {
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u, armorSkin.v, width, height, 256, 256);
+      drawGlint(graphics, x, y, width, height);
     }
   }
 
@@ -49,10 +75,12 @@ public abstract class InGameHudMixin {
 
     if (armorSkin == ArmorType.DYNAMIC) {
       ArmorType armorType = dynamicArmorSkin.getArmorTypeForIcon(currentIconIndex);
-      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u, armorType.v, width, height, 256, 256);
+      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u + 9, armorType.v, width, height, 256, 256);
+      drawGlint(graphics, x, y, width, height);
       currentIconIndex++;
     } else {
-      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u, armorSkin.v, width, height, 256, 256);
+      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u + 9, armorSkin.v, width, height, 256, 256);
+      drawGlint(graphics, x, y, width, height);
     }
   }
 
