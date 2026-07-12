@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.KeyMapping.Category;
+// import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +23,7 @@ public class ArmorSkin implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-      keynmap = new KeyMapping( "key.armorskin.settings", Type.KEYSYM, GLFW.GLFW_KEY_F7, new Category( ResourceLocation.tryParse("key.category.armorskin") ));
+      keynmap = new KeyMapping( "key.armorskin.settings", Type.KEYSYM, GLFW.GLFW_KEY_F7, "key.category.armorskin" );
       AutoConfig.register( ModConfig.class, JanksonConfigSerializer::new);
       ConfigInstance = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
       ClientTickEvents.END_CLIENT_TICK.register( this::settingsMenuListener);
