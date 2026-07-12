@@ -31,24 +31,20 @@ public abstract class InGameHudMixin {
   private static final DynamicArmorSkin dynamicArmorSkin = new DynamicArmorSkin(Minecraft.getInstance());
   @Unique
   private static int currentIconIndex = 0;
-  @Unique
-  private static boolean hasEnchantedArmor = false;
-
-  @Inject(method = "extractArmor", at = @At("HEAD"))
-  private static void capturePlayerForGlint(GuiGraphicsExtractor graphics, Player player, int y, int lines, int emptySlots, int x, CallbackInfo ci) {
-      hasEnchantedArmor = false;
-      for (net.minecraft.world.entity.EquipmentSlot slot : net.minecraft.world.entity.EquipmentSlot.values()) {
-          if (slot.isArmor() && player.getItemBySlot(slot).hasFoil()) {
-              hasEnchantedArmor = true;
-              break;
-          }
-      }
-  }
 
   @Unique
-  private static void drawGlint(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
-      if (hasEnchantedArmor) {
+  private static void drawGlint(GuiGraphicsExtractor graphics, int x, int y, int width, int height, boolean left, boolean right) {
+      if (left && right) {
           graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x, y, 0, 0, width, height, width, height);
+      } else if (left) {
+          // Left half (typically 5px width for 9x9 icons)
+          int leftWidth = width - (width / 2);
+          graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x, y, 0, 0, leftWidth, height, width, height);
+      } else if (right) {
+          // Right half (typically 4px width for 9x9 icons)
+          int leftWidth = width - (width / 2);
+          int rightWidth = width / 2;
+          graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x + leftWidth, y, leftWidth, 0, rightWidth, height, width, height);
       }
   }
 
@@ -60,11 +56,11 @@ public abstract class InGameHudMixin {
     if (armorSkin == ArmorType.DYNAMIC) {
       ArmorType armorType = dynamicArmorSkin.getArmorTypeForIcon(currentIconIndex);
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u, armorType.v, width, height, 256, 256);
-      drawGlint(graphics, x, y, width, height);
+      drawGlint(graphics, x, y, width, height, dynamicArmorSkin.hasLeftGlint(), dynamicArmorSkin.hasRightGlint());
       currentIconIndex++;
     } else {
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u, armorSkin.v, width, height, 256, 256);
-      drawGlint(graphics, x, y, width, height);
+      // For static armor skin, we don't apply glint since we don't know the exact material mapping
     }
   }
 
@@ -76,11 +72,10 @@ public abstract class InGameHudMixin {
     if (armorSkin == ArmorType.DYNAMIC) {
       ArmorType armorType = dynamicArmorSkin.getArmorTypeForIcon(currentIconIndex);
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u + 9, armorType.v, width, height, 256, 256);
-      drawGlint(graphics, x, y, width, height);
+      drawGlint(graphics, x, y, width, height, dynamicArmorSkin.hasLeftGlint(), dynamicArmorSkin.hasRightGlint());
       currentIconIndex++;
     } else {
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u + 9, armorSkin.v, width, height, 256, 256);
-      drawGlint(graphics, x, y, width, height);
     }
   }
 
