@@ -7,6 +7,3 @@ Minecraft fabric mod that shows armor types in the armor status bar.
 <img width="1708" height="960" alt="2025-11-04_10 45 33" src="https://github.com/user-attachments/assets/800e0fd4-87b3-4ec5-88d6-1d8328d7d816" />
 <img width="1708" height="960" alt="2025-11-04_10 45 21" src="https://github.com/user-attachments/assets/25242daa-139f-4a84-a078-184189fdd094" />
 <img width="1708" height="960" alt="2025-11-04_10 45 14" src="https://github.com/user-attachments/assets/42fc58c2-8a57-4796-b2a4-fc851ae743b1" />
-
-
-Need help? or have questions? [Join my discord!](https://discord.gg/cVFc6Mr)
