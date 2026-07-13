@@ -5,14 +5,14 @@
   "name": "ArmorSkin",
   "description": "Shows armor types in the armor status bar.",
   "authors": [
-    "IzzyDotExe"
+    "Nunny26"
   ],
   "contact": {
-    "website": "https://blutopia.ca",
-    "issues": "https://github.com/IzzyDotExe/ArmorSkin/issues",
-    "repo": "https://github.com/IzzyDotExe/ArmorSkin"
+    "website": " ",
+    "issues": "https://github.com/Nunny26/ArmorSkinFixed/issues",
+    "repo": "https://github.com/Nunny26/ArmorSkinFixed"
   },
-  "license": "All-Rights-Reserved",
+  "license": "Apache-2.0",
   "icon": "assets/armorskin/icon.png",
   "environment": "client",
   "entrypoints": {

@@ -119,3 +119,6 @@ run/
 
 #java
 jdk-21.0.2/
+
+#Thumbnails
+generate_logo.py
