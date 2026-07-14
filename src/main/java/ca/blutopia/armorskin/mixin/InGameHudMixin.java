@@ -6,9 +6,11 @@ import ca.blutopia.armorskin.config.ArmorType;
 import ca.blutopia.armorskin.config.ModConfig;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.Hud;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,11 +18,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Gui.class)
+@Mixin(Hud.class)
 public abstract class InGameHudMixin {
 
   @Unique
-  private static final ResourceLocation ARMORSKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/armorskin.png");
+  private static final Identifier ARMORSKIN_TEXTURE = Identifier.withDefaultNamespace("textures/gui/armorskin.png");
+  @Unique
+  private static final Identifier GLINT_TEXTURE = Identifier.withDefaultNamespace("textures/misc/enchanted_glint_item.png");
   @Unique
   private static final ModConfig ModConfig = ArmorSkin.ConfigInstance;
   @Unique
@@ -28,37 +32,56 @@ public abstract class InGameHudMixin {
   @Unique
   private static int currentIconIndex = 0;
 
-  @Redirect(method = "renderArmor",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 0))
-  private static void redirectArmorIcon( GuiGraphics graphics, RenderPipeline renderPipeline, ResourceLocation resource, int x, int y, int width, int height) {
+  @Unique
+  private static void drawGlint(GuiGraphicsExtractor graphics, int x, int y, int width, int height, boolean left, boolean right) {
+      if (left && right) {
+          graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x, y, 0, 0, width, height, width, height);
+      } else if (left) {
+          // Left half (typically 5px width for 9x9 icons)
+          int leftWidth = width - (width / 2);
+          graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x, y, 0, 0, leftWidth, height, width, height);
+      } else if (right) {
+          // Right half (typically 4px width for 9x9 icons)
+          int leftWidth = width - (width / 2);
+          int rightWidth = width / 2;
+          graphics.blit(RenderPipelines.GLINT, GLINT_TEXTURE, x + leftWidth, y, leftWidth, 0, rightWidth, height, width, height);
+      }
+  }
+
+  @Redirect(method = "extractArmor",
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 0))
+  private static void redirectArmorIcon( GuiGraphicsExtractor graphics, RenderPipeline renderPipeline, Identifier resource, int x, int y, int width, int height) {
     ArmorType armorSkin = ModConfig.armorSkin;
 
     if (armorSkin == ArmorType.DYNAMIC) {
       ArmorType armorType = dynamicArmorSkin.getArmorTypeForIcon(currentIconIndex);
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u, armorType.v, width, height, 256, 256);
+      drawGlint(graphics, x, y, width, height, dynamicArmorSkin.hasLeftGlint(), dynamicArmorSkin.hasRightGlint());
       currentIconIndex++;
     } else {
       graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u, armorSkin.v, width, height, 256, 256);
+      // For static armor skin, we don't apply glint since we don't know the exact material mapping
     }
   }
 
-  @Redirect(method = "renderArmor",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 1))
-  private static void redirectHalfArmorIcon(GuiGraphics graphics, RenderPipeline renderPipeline , ResourceLocation resource, int x, int y, int width, int height) {
+  @Redirect(method = "extractArmor",
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 1))
+  private static void redirectHalfArmorIcon(GuiGraphicsExtractor graphics, RenderPipeline renderPipeline , Identifier resource, int x, int y, int width, int height) {
     ArmorType armorSkin = ModConfig.armorSkin;
 
     if (armorSkin == ArmorType.DYNAMIC) {
       ArmorType armorType = dynamicArmorSkin.getArmorTypeForIcon(currentIconIndex);
-      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u, armorType.v, width, height, 256, 256);
+      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorType.u + 9, armorType.v, width, height, 256, 256);
+      drawGlint(graphics, x, y, width, height, dynamicArmorSkin.hasLeftGlint(), dynamicArmorSkin.hasRightGlint());
       currentIconIndex++;
     } else {
-      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u, armorSkin.v, width, height, 256, 256);
+      graphics.blit(renderPipeline, ARMORSKIN_TEXTURE, x, y, armorSkin.u + 9, armorSkin.v, width, height, 256, 256);
     }
   }
 
-  @Redirect(method = "renderArmor",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 2))
-  private static void redirectEmptyArmorIcon(GuiGraphics graphics, RenderPipeline renderPipeline , ResourceLocation resource, int x, int y, int width, int height) {
+  @Redirect(method = "extractArmor",
+    at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 2))
+  private static void redirectEmptyArmorIcon(GuiGraphicsExtractor graphics, RenderPipeline renderPipeline , Identifier resource, int x, int y, int width, int height) {
 
     if (ModConfig.showElytra && dynamicArmorSkin.isElytraEquipped()) {
 
@@ -77,9 +100,9 @@ public abstract class InGameHudMixin {
 
   }
 
-  @Inject(method = "renderPlayerHealth",
+  @Inject(method = "extractPlayerHealth",
     at = @At(value = "HEAD"))
-  private static void resetIconIndex( GuiGraphics guiGraphics, CallbackInfo ci ) {
+  private static void resetIconIndex( GuiGraphicsExtractor guiGraphics, CallbackInfo ci ) {
     currentIconIndex = 0;
     dynamicArmorSkin.storeArmorValues();
   }
