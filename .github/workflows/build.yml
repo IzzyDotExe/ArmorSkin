@@ -32,13 +32,24 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
-          
+          # Cache resolved dependencies so a working build doesn't re-download
+          # them every run (and so transient maven outages are less impactful).
+          cache: 'gradle'
+
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-        
+
+      # The Modmenu/Cloth Config mavens occasionally drop the connection
+      # mid-download (HTTP/2 stream reset / "premature end of chunk"). Retry the
+      # build a few times so a single flaky download doesn't fail the whole job.
       - name: build
-        run: ./gradlew build
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 20
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: ./gradlew build
         
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '25' }} # Only upload artifacts built from latest java on one OS
