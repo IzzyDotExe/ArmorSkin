@@ -10,3 +10,22 @@ Minecraft fabric mod that shows armor types in the armor status bar.
 
 
 Need help? or have questions? [Join my discord!](https://discord.gg/cVFc6Mr)
+
+## License
+
+ArmorSkin is licensed under the **[GNU General Public License v3.0 (or later)](LICENSE)**.
+
+This is a strong copyleft license. In short, you are free to use, study, share, and modify this mod, but if you distribute ArmorSkin or any modified/derived version of it (including forks and rebrands), you **must**:
+
+- Keep it open source and license it under the **same GPL-3.0-or-later** terms;
+- Make the **complete corresponding source code** available to your users;
+- **Preserve the original copyright notices and attribution.**
+
+You may not relicense it, close the source, or ship a proprietary fork.
+
+> Note: releases distributed before this license change remained under their original terms; this license governs the current and future source of ArmorSkin.
+
+## Contributing
+
+Contributions are welcome! By submitting a pull request, you agree that your contribution is licensed under the project's **GPL-3.0-or-later** license so it can remain part of the open-source project.
+

@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2021-2026 IzzyDotExe and ArmorSkin contributors
+//
+// This file is part of ArmorSkin. ArmorSkin is free software: you can
+// redistribute it and/or modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version. See the LICENSE file for the
+// full license text.
+
 package ca.blutopia.armorskin;
 
 import ca.blutopia.armorskin.config.ArmorType;
@@ -14,6 +23,12 @@ import java.util.Map;
 public class DynamicArmorSkin {
 
   private Map<ArmorMaterial, Integer> armorPoints = new HashMap<ArmorMaterial, Integer>();
+  private Map<ArmorMaterial, Integer> enchantedArmorPoints = new HashMap<ArmorMaterial, Integer>();
+  private boolean leftGlint = false;
+  private boolean rightGlint = false;
+
+  public boolean hasLeftGlint() { return leftGlint; }
+  public boolean hasRightGlint() { return rightGlint; }
   ArmorMaterial current = ArmorMaterial.NONE;
   private Minecraft client;
   private ModConfig modConfig = ArmorSkin.ConfigInstance;
@@ -52,6 +67,7 @@ public class DynamicArmorSkin {
   public void storeArmorValues() {
 
     armorPoints.clear();
+    enchantedArmorPoints.clear();
 
     if (client.player == null) {
       return;
@@ -77,6 +93,11 @@ public class DynamicArmorSkin {
     putOrAdd(armorPoints, chestplateMaterial, getArmorValue( chestplate));
     putOrAdd(armorPoints, helmetMaterial, getArmorValue( helmet));
 
+    if (boots.hasFoil()) putOrAdd(enchantedArmorPoints, bootsMaterial, getArmorValue(boots));
+    if (leggings.hasFoil()) putOrAdd(enchantedArmorPoints, leggingsMaterial, getArmorValue(leggings));
+    if (chestplate.hasFoil()) putOrAdd(enchantedArmorPoints, chestplateMaterial, getArmorValue(chestplate));
+    if (helmet.hasFoil()) putOrAdd(enchantedArmorPoints, helmetMaterial, getArmorValue(helmet));
+
     current = ArmorMaterial.NONE;
 
   }
@@ -100,22 +121,52 @@ public class DynamicArmorSkin {
     if (armorPoints.get( current ) >= 2) {
 
       armorPoints.put( current, armorPoints.get( current ) - 2 );
+      
+      leftGlint = false;
+      rightGlint = false;
+      int enchPts = enchantedArmorPoints.getOrDefault(current, 0);
+      if (enchPts >= 2) {
+          leftGlint = true;
+          rightGlint = true;
+          enchantedArmorPoints.put(current, enchPts - 2);
+      } else if (enchPts == 1) {
+          leftGlint = true;
+          enchantedArmorPoints.put(current, enchPts - 1);
+      }
+
       ArmorType type = getArmorType(current, false, null);
 
       if (armorPoints.get( current ) == 0) {
         armorPoints.remove( current );
+        enchantedArmorPoints.remove(current);
         current = getHighestNumericValue(armorPoints);
       }
 
       return type;
     } else {
       armorPoints.remove( current );
+      
+      leftGlint = false;
+      int currEnch = enchantedArmorPoints.getOrDefault(current, 0);
+      if (currEnch >= 1) {
+          leftGlint = true;
+          enchantedArmorPoints.put(current, currEnch - 1);
+      }
+
       ArmorMaterial secondary = getHighestNumericValue(armorPoints);
+      rightGlint = false;
 
       if (secondary == null) {
         secondary = ArmorMaterial.NONE;
       } else {
         armorPoints.put(secondary, armorPoints.get( secondary ) - 1);
+        
+        int secEnch = enchantedArmorPoints.getOrDefault(secondary, 0);
+        if (secEnch >= 1) {
+            rightGlint = true;
+            enchantedArmorPoints.put(secondary, secEnch - 1);
+        }
+
         if (armorPoints.get( secondary ) == 0) armorPoints.remove( secondary );
       }
 

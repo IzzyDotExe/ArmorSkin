@@ -8,13 +8,13 @@
     "IzzyDotExe"
   ],
   "contact": {
-    "website": "https://blutopia.ca",
+    "website": " ",
     "issues": "https://github.com/IzzyDotExe/ArmorSkin/issues",
     "repo": "https://github.com/IzzyDotExe/ArmorSkin"
   },
-  "license": "All-Rights-Reserved",
+  "license": "Apache-2.0",
   "icon": "assets/armorskin/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "ca.blutopia.armorskin.ArmorSkin"
@@ -25,7 +25,7 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "${minecraft_version}"
   }
 }
