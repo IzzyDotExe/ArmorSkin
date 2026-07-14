@@ -5,12 +5,12 @@
   "name": "ArmorSkin",
   "description": "Shows armor types in the armor status bar.",
   "authors": [
-    "Nunny26"
+    "IzzyDotExe"
   ],
   "contact": {
     "website": " ",
-    "issues": "https://github.com/Nunny26/ArmorSkinFixed/issues",
-    "repo": "https://github.com/Nunny26/ArmorSkinFixed"
+    "issues": "https://github.com/IzzyDotExe/ArmorSkin/issues",
+    "repo": "https://github.com/IzzyDotExe/ArmorSkin"
   },
   "license": "Apache-2.0",
   "icon": "assets/armorskin/icon.png",
