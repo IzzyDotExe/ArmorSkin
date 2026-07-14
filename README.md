@@ -27,5 +27,5 @@ You may not relicense it, close the source, or ship a proprietary fork.
 
 ## Contributing
 
-Contributions are welcome! By submitting a pull request, you agree that your contribution is licensed under the project's **GPL-3.0-or-later** license so it can remain part of the open-source project.
+Contributions are welcome! By submitting a pull request, you agree that your contribution is licensed under the project's **GPL-3.0-or-later** license so it can remain part of the open-source project. Any forks must retain credits/attributions to IzzyDotExe/ArmorSkin
 
