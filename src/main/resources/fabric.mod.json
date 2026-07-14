@@ -12,7 +12,7 @@
     "issues": "https://github.com/IzzyDotExe/ArmorSkin/issues",
     "repo": "https://github.com/IzzyDotExe/ArmorSkin"
   },
-  "license": "Apache-2.0",
+  "license": "GPL-3.0-or-later",
   "icon": "assets/armorskin/icon.png",
   "environment": "client",
   "entrypoints": {

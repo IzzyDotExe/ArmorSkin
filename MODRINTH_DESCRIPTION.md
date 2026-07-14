@@ -10,3 +10,7 @@ ArmorSkin is a lightweight, client-side Fabric mod that completely overhauls the
 * **Elytra & Configuration Support:** Fully supports visual Elytra indicators and integrates flawlessly with Mod Menu, allowing you to tweak settings or even force a static armor skin if you prefer a consistent look.
 
 Bring your HUD to life and always know exactly what armor you're wearing at a glance!
+
+---
+
+**License:** ArmorSkin is free and open source under the **GNU GPL v3.0 (or later)**. Forks and modified versions must remain open source under the same license and must credit the original author. Source: https://github.com/IzzyDotExe/ArmorSkin
